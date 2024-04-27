@@ -20,8 +20,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
@@ -41,6 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 		jwt = authHeader.substring(7);
 		userEmail = jwtService.extractUserName(jwt);
+		log.info("User Detail Token : {},User Email:{}", jwt, userEmail);
+
 		if (!StringUtils.isEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 			if (jwtService.isTokenValid(jwt, userDetails)) {

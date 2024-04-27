@@ -34,6 +34,9 @@ public class AuthService {
 	}
 
 	public JwtAuthenticationResponse signup(SignUpRequest request) {
+		
+		
+		
 		User user = userRepository.findByEmail(request.getEmail()).orElse(new User());
 		user.setEmail(request.getEmail());
 		user.setFirstName(request.getFirstName());
